@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
+import 'package:test_socket/init_noti.dart';
 
 class ChatPage extends StatefulWidget {
   final String name;
@@ -64,6 +65,10 @@ class _ChatPageState extends State<ChatPage> {
             setState(() {
               messages.add(data);
             });
+            LocalNotificationService.instance.showNoti(
+              title: "New Message",
+              body: data['message'],
+            );
           } catch (e) {
             log('Error decoding message body: $e');
           }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:test_socket/init_noti.dart';
 import 'package:test_socket/pages/login_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotificationService.instance.init();
   runApp(const MyApp());
 }
 
