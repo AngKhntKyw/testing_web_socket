@@ -61,14 +61,23 @@ class _ChatPageState extends State<ChatPage> {
         if (frame.body != null) {
           try {
             final data = json.decode(frame.body!);
+
             log('New message: $data');
-            setState(() {
-              messages.add(data);
-            });
-            LocalNotificationService.instance.showNoti(
-              title: "New Message",
-              body: data['message'],
-            );
+            if (data['from'] == widget.currentUser ||
+                data['from'] == widget.name) {
+              setState(() {
+                messages.add(data);
+              });
+            }
+
+            // noti
+            if (data['from'] != widget.currentUser &&
+                data['from'] != widget.name) {
+              LocalNotificationService.instance.showNoti(
+                title: data['from'],
+                body: data['message'],
+              );
+            }
           } catch (e) {
             log('Error decoding message body: $e');
           }
@@ -93,13 +102,13 @@ class _ChatPageState extends State<ChatPage> {
         headers: {},
       );
 
-      setState(() {
-        messages.add({
-          'to': recipient,
-          'message': message,
-          'from': widget.currentUser,
-        });
-      });
+      // setState(() {
+      //   messages.add({
+      //     'to': recipient,
+      //     'message': message,
+      //     'from': widget.currentUser,
+      //   });
+      // });
 
       messageController.clear();
     } else {

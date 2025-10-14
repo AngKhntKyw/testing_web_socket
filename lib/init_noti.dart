@@ -27,13 +27,10 @@ class LocalNotificationService {
           'chat',
           'chat',
           channelDescription: 'chat',
-          styleInformation: MediaStyleInformation(),
           importance: Importance.max,
           priority: Priority.high,
-          ticker: 'ticker',
           channelShowBadge: true,
           autoCancel: true,
-          icon: '@mipmap/ic_launcher',
         );
 
     NotificationDetails notificationDetails = NotificationDetails(

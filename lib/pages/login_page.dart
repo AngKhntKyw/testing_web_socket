@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:test_socket/init_bubble.dart';
+import 'package:test_socket/init_noti.dart';
 import 'package:test_socket/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,13 +37,14 @@ class _LoginPageState extends State<LoginPage> {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
         if (!mounted) return;
 
-        Navigator.of(context).push(
+        Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => HomePage(
               token: responseBody['token'],
               currentUser: responseBody['username'],
             ),
           ),
+          (route) => false,
         );
       } else {}
     }
@@ -60,7 +63,9 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Login"),
+
               const SizedBox(height: 30),
+
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(labelText: "name"),
@@ -73,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
 
               const SizedBox(height: 30),
+
               TextFormField(
                 controller: passwordController,
                 decoration: InputDecoration(labelText: "password"),
@@ -83,8 +89,27 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
+
               const SizedBox(height: 30),
+
               ElevatedButton(onPressed: login, child: Text("login")),
+
+              ElevatedButton(
+                onPressed: () {
+                  LocalNotificationService.instance.showNoti(
+                    title: "This is title",
+                    body: "This is body",
+                  );
+                },
+                child: const Text("Noti"),
+              ),
+
+              ElevatedButton(
+                onPressed: () {
+                  BubblesService.instance.show("HEEHEE");
+                },
+                child: const Text("Bubble"),
+              ),
             ],
           ),
         ),

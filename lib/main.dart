@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:test_socket/init_noti.dart';
-import 'package:test_socket/pages/login_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:test_socket/core/routing/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalNotificationService.instance.init();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const LoginPage(),
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Watch the router provider
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Test Socket',
+      routerConfig: router,
+      theme: ThemeData.light(),
     );
   }
 }
