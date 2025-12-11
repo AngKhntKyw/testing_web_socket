@@ -5,7 +5,7 @@ import 'package:test_socket/features/chat/controller/chat_controller.dart';
 
 class ChatPage extends ConsumerWidget {
   // ✅ Changed to ConsumerWidget
-  final UserModel recipient; // Changed 'name' to 'partnerName' for clarity
+  final UserModel recipient;
   final String currentUserId;
 
   const ChatPage({
@@ -22,7 +22,7 @@ class ChatPage extends ConsumerWidget {
     final messages = ref.watch(chatPartnerMessagesProvider(recipient));
 
     // The rest of the logic is now much cleaner
-    void _sendMessage() {
+    void sendMessage() {
       final message = messageController.text;
       if (message.isEmpty) return;
 
